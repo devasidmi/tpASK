@@ -1,0 +1,36 @@
+<html>
+
+<head>
+    <title>VASIDMI SITE</title>
+    {% include 'questions/style-links.html' %}
+</head>
+
+<body>
+    {% include 'questions/header_auth.html' %}
+    <main class="mdl-layout__content">
+        <div class="page-content">
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--8-col">
+                    <div>
+                        <p>
+                            <p>
+                    </div>
+                </div>
+                <div class="mdl-cell mdl-cell--4-col">
+                    <div>
+                        <p>
+                            <p>
+                                Теги: {% include 'questions/site_tags.html' %}
+                    </div>
+                    <div>
+                        <div class="mdl-card__actions mdl-card--border">
+                            <p>
+                                <p>
+                                    Лучшие пользователи: {% include 'questions/best_members.html' %}
+                        </div>
+                    </div>
+                </div>
+    </main>
+</body>
+
+</html>

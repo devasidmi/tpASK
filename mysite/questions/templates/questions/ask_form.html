@@ -1,0 +1,47 @@
+<style>
+.login-card-wide.mdl-card {
+    width: 900px;
+}
+
+.login-card-wide.mdl-card__title {
+    color: #fff;
+    height: 176px;
+}
+
+.login-card-wide.mdl-card__menu {
+    color: #fff;
+}
+</style>
+<div class="login-card-wide mdl-card mdl-shadow--2dp">
+    <div class="mdl-card__title">
+        <h3>Новый вопрос</h3>
+    </div>
+    <div class="mdl-card__supporting-text">
+        <!-- Textfield with Floating Label -->
+        <form action="#">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="title_input">
+                <label class="mdl-textfield__label" for="title_input">Заголовок...</label>
+            </div>
+        </form>
+        <!-- Textfield with Floating Label -->
+        <form action="#">
+            <div class="mdl-textfield mdl-js-textfield">
+                <textarea class="mdl-textfield__input" type="text" rows="10" id="text_input"></textarea>
+                <label class="mdl-textfield__label" for="text_input">Текст...</label>
+            </div>
+        </form>
+        <form action="#">
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="tags_input">
+                <label class="mdl-textfield__label" for="tags_input">Теги...</label>
+            </div>
+        </form>
+    </div>
+    <div class="mdl-card__actions">
+        <!-- Accent-colored raised button with ripple -->
+        <button id="ask_btn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+            Спросить
+        </button>
+    </div>
+</div>

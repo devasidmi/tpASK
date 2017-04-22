@@ -1,0 +1,91 @@
+<style>
+.login-card-wide.mdl-card {
+    width: 900px;
+}
+
+.login-card-wide.mdl-card__title {
+    color: #fff;
+    height: 176px;
+}
+
+.login-card-wide.mdl-card__menu {
+    color: #fff;
+}
+</style>
+<main class="mdl-layout__content">
+    <div class="page-content">
+        <div class="mdl-grid">
+            <div class="mdl-cell mdl-cell--8-col">
+                <p></p>
+                <div class="login-card-wide mdl-card mdl-shadow--2dp">
+                    <div class="mdl-card__title">
+                        <h3>Регистрация</h3>
+                    </div>
+                    <div class="mdl-card__supporting-text">
+                        <form action="#">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <input class="mdl-textfield__input" type="text" id="login_input">
+                                <label class="mdl-textfield__label" for="login_input">Логин...</label>
+                            </div>
+                        </form>
+                        <form action="#">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <input class="mdl-textfield__input" type="text" pattern="^[-a-z0-9!#$%&'*+/=?^_`{|}~]+(\.[-a-z0-9!#$%&'*+/=?^_`{|}~]+)*@([a-z0-9]([-a-z0-9]{0,61}[a-z0-9])?\.)*(aero|arpa|asia|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|[a-z][a-z])$" id="email_input">
+                                <label class="mdl-textfield__label" for="email_input">Email...</label>
+                                <span class="mdl-textfield__error">Введите корректно Email!</span>
+                            </div>
+                        </form>
+                        <form action="#">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <input class="mdl-textfield__input" type="text" id="nick_input">
+                                <label class="mdl-textfield__label" for="nick_input">Никнейм...</label>
+                            </div>
+                        </form>
+                        <form action="#">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <input class="mdl-textfield__input" type="password" id="password_input">
+                                <label class="mdl-textfield__label" for="password_input">Пароль...</label>
+                            </div>
+                        </form>
+                        <form action="#">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <input class="mdl-textfield__input" type="password" id="assword-repeat_input">
+                                <label class="mdl-textfield__label" for="password-repeat_input">Повторите пароль...</label>
+                            </div>
+                        </form>
+                        <!-- Textfield with Floating Label -->
+                        <form action="#">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <input class="mdl-textfield__input" type="text" id="avatar_input" />
+                                <label class="mdl-textfield__label" for="avatar_input">Файл...
+                                </label>
+                            </div>
+                        </form>
+                        <!-- Button Chip -->
+                        <button type="button" class="mdl-chip">
+                            <span class="mdl-chip__text">...</span>
+                        </button>
+                    </div>
+                    <div class="mdl-card__actions">
+                        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+                            Зарегистрироваться
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="mdl-cell mdl-cell--4-col">
+                <div>
+                    <p>
+                        <p>
+                            Теги: {% include 'questions/site_tags.html' %}
+                </div>
+                <div>
+                    <div class="mdl-card__actions mdl-card--border">
+                        <p>
+                            <p>
+                                Лучшие пользователи: {% include 'questions/best_members.html' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
