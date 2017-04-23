@@ -3,9 +3,9 @@ from django.shortcuts import render
 from django.utils import timezone
 from .models import Question
 
-
 def questions_list(request):
-    questions = Question.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    questions = Question.objects.hot()
+    #assert False, questions
     return render(request, 'questions/questions_list.html', {'questions': questions})
 def registration(request):
 	return render(request,'questions/registration.html',{})

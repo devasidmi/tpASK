@@ -8,10 +8,11 @@
         {{ question.text }}
     </div>
     <div class="mdl-card__actions mdl-card--border">
-        <button type="button" class="btn btn-default btn-lg">
-            <span class="glyphicon glyphicon-star" aria-hidden="true"></span> Star
-        </button>
-        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+        <a style="float: left;margin-top: 5px" class="mdl-list__item-secondary-action"><i class="material-icons">star</i></a>
+        <p style="float: left;font-size: large;margin-top: 7px;margin-left: 10px">{{ question.rating }}</p>
+        <button style="margin-left: 15"><img src="/like.png" style="vertical-align: middle"></button>
+        <button><img src="/dislike.png" style="vertical-align: middle"></button>
+        <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" style="float: right;">
           Подробнее
         </a>
     </div>
