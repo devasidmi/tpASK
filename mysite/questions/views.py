@@ -3,9 +3,16 @@ from django.shortcuts import render
 from django.utils import timezone
 from .models import Question
 
+def get_q_id(request,id):
+
+    post = Question.objects.all().filter(id="%s" % (id))[0]
+    response = "TITLE: %s\n TEXT: %s\n CREATED: %s\n TAGS: %s" % (post.title, post.text, post.created, post.tags.name)
+    print(response)
+    return render(request,'questions/post_page.html',{'post':post})
+
 def questions_list(request):
-    questions = Question.objects.hot()
-    #assert False, questions
+    questions = Question.objects.newest()
+    assert False, questions
     return render(request, 'questions/questions_list.html', {'questions': questions})
 def registration(request):
 	return render(request,'questions/registration.html',{})
@@ -17,25 +24,25 @@ def logged(request):
 	return render(request,'questions/logged_in.html',{})
 def ask(request):
 	return render(request,'questions/ask.html',{})
-def simpleapp(wsgi_request):
+def simpleapp(request):
 	resp = ['<p>Methods page</p>']
-	print(wsgi_request)
-	print(wsgi_request.GET)
-	if wsgi_request.method == 'GET':
-		if (len(wsgi_request.GET)):
+	print(request)
+	print(request.GET)
+	if request.method == 'GET':
+		if (len(request.GET)):
 			resp.append("GET<br>")
-			print(wsgi_request.GET.items)
-			for item in wsgi_request.GET:
-				print (item, wsgi_request.GET[item])
-				arr = (item, '=', wsgi_request.GET[item], '<br>')
+			print(request.GET.items)
+			for item in request.GET:
+				print (item, request.GET[item])
+				arr = (item, '=', request.GET[item], '<br>')
 				resp.append(''.join(arr))
 
-	if wsgi_request.method == 'POST':
-		print(wsgi_request.POST.items)
+	if request.method == 'POST':
+		print(request.POST.items)
 		resp.append("POST<br>")
-		if (len(wsgi_request.POST)):
-			for item in wsgi_request.POST:
-				print (item, wsgi_request.body)
-				arr = (item, '=', wsgi_request.POST[item], '<br>')
+		if (len(request.POST)):
+			for item in request.POST:
+				print (item, request.body)
+				arr = (item, '=', request.POST[item], '<br>')
 				resp.append(''.join(arr))
 	return HttpResponse(resp)
