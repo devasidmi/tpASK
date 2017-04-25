@@ -1,18 +1,22 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
-from .models import Question
+from .models import Question,Answer
+
+def getComments(id):
+    answers = Answer.objects.all().filter(question_id = id)
+    return answers
 
 def get_q_id(request,id):
-
     post = Question.objects.all().filter(id="%s" % (id))[0]
     response = "TITLE: %s\n TEXT: %s\n CREATED: %s\n TAGS: %s" % (post.title, post.text, post.created, post.tags.name)
     print(response)
-    return render(request,'questions/post_page.html',{'post':post})
+    comments = getComments(id)
+    return render(request,'questions/post_page.html',{'post':post,'comments':comments})
 
 def questions_list(request):
     questions = Question.objects.newest()
-    assert False, questions
+    #assert False, questions
     return render(request, 'questions/questions_list.html', {'questions': questions})
 def registration(request):
 	return render(request,'questions/registration.html',{})

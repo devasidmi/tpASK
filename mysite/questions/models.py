@@ -50,9 +50,14 @@ class Answer(models.Model):
         return self.text
 
 class Profile(User):
+    class Meta:
+        db_table = "profiles"
     avatar = models.ImageField()
     nickname = models.CharField(max_length = 20, default='')
     rating = models.IntegerField(default = 0)
+
+    def __str__(self):
+        return self.nickname
 
 class Like(models.Model):
     class Meta:
