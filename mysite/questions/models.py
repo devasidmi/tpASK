@@ -1,4 +1,5 @@
 from django.db import models
+from django.shortcuts import render
 from django.contrib.auth.models import User
 import datetime
 
@@ -14,12 +15,39 @@ class QuestionManager(models.Manager):
         tg = Tag.objects.get(name = tag_name)
         return tg.question_set.all()
 
+    def comments(self, id):
+        comments = Answer.objects.all().filter(question_id = id)
+        return comments
+
+    def getQuestionsByTag(self,request,tag):
+        tags = Tag.objects.getPopularTags()
+        questions = Tag.objects.getPostsWithTag(tag)
+        return render(request, 'questions/questions_list.html', {'questions': questions,'tags':tags})
+
+    def getQuestionWithComments(self,request,id):
+        post = Question.objects.all().filter(id="%s" % (id))[0]
+        response = "TITLE: %s\n TEXT: %s\n CREATED: %s\n TAGS: %s" % (post.title, post.text, post.created, post.tags.name)
+        print(response)
+        tags = Tag.objects.getPopularTags()
+        return render(request,'questions/post_page.html',{'post':post,'comments':Question.objects.comments(id),'tags':tags})
+
+class TagManager(models.Manager):
+
+    def getPopularTags(self):
+        tags = Tag.objects.all()
+        return sorted(tags,key=lambda tag:tag.used, reverse=True)[0:3]
+
+    def getPostsWithTag(self,tag):
+        return Tag.objects.get(name=tag).question_set.all()
 
 class Tag(models.Model):
     class Meta:
         db_table = "tags"
     name = models.CharField(max_length = 20, unique = True)
     used = models.IntegerField(default=0)
+
+    objects=TagManager()
+
     def __str__(self):
         return self.name
 
