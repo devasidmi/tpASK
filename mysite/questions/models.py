@@ -2,6 +2,7 @@ from django.db import models
 from django.shortcuts import render
 from django.contrib.auth.models import User
 import datetime
+from .paginator import PaginatorClass
 
 class QuestionManager(models.Manager):
 
@@ -26,10 +27,10 @@ class QuestionManager(models.Manager):
 
     def getQuestionWithComments(self,request,id):
         post = Question.objects.all().filter(id="%s" % (id))[0]
-        response = "TITLE: %s\n TEXT: %s\n CREATED: %s\n TAGS: %s" % (post.title, post.text, post.created, post.tags.name)
-        print(response)
+        comments_list =  Question.objects.comments(id)
+        page = request.GET.get('page')
         tags = Tag.objects.getPopularTags()
-        return render(request,'questions/post_page.html',{'post':post,'comments':Question.objects.comments(id),'tags':tags})
+        return render(request,'questions/post_page.html',{'post':post,'paginator':PaginatorClass.paginate(comments_list,page),'tags':tags})
 
 class TagManager(models.Manager):
 

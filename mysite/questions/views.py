@@ -2,12 +2,15 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils import timezone
 from .models import Question,Answer,Tag
+from .paginator import PaginatorClass
 
 def questions_list(request):
     questions = Question.objects.newest()
+    page = request.GET.get('page')
     tags = Tag.objects.getPopularTags()
     # assert False, questions
-    return render(request, 'questions/questions_list.html', {'questions': questions,'tags':tags})
+    return render(request, 'questions/questions_list.html', {'questions': questions,'tags':tags,'paginator':PaginatorClass.paginate(questions,page)})
+
 def registration(request):
     tags = Tag.objects.getPopularTags()
     return render(request, 'questions/registration.html',{'tags':tags})
