@@ -23,7 +23,8 @@ class QuestionManager(models.Manager):
     def getQuestionsByTag(self,request,tag):
         tags = Tag.objects.getPopularTags()
         questions = Tag.objects.getPostsWithTag(tag)
-        return render(request, 'questions/questions_list.html', {'questions': questions,'tags':tags})
+        page = request.GET.get('page')
+        return render(request, 'questions/questions_list.html', {'questions': questions,'paginator':PaginatorClass.paginate(questions,page),'tags':tags})
 
     def getQuestionWithComments(self,request,id):
         post = Question.objects.all().filter(id="%s" % (id))[0]
