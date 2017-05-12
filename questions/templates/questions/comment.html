@@ -1,0 +1,14 @@
+{% for comment in paginator %}
+<p>
+  <div style="margin-left: 20px" class="comment mdl-card mdl-shadow--2dp">
+    <div class="mdl-card--expand">
+      <span>
+  <i style="margin-top:15px; margin-left:15px" class="material-icons mdl-list__item-avatar">person</i>
+  <span>{{ comment.user }}</span>
+      </span>
+      <p>{{ comment.text }}</p>
+    </div>
+  </div>
+</p>
+{% endfor %} {% if paginator|length == 0 %}
+<span style="margin-left:20px">Нет комментариев</span> {% else %} {% include 'questions/pagination.html' %}{% endif %}

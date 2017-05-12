@@ -1,0 +1,16 @@
+<form id="post-comment-form" method="post">{% csrf_token %}
+<div style="margin-left: 20px;margin-top: 50px; width: 750px; height: 450px" class="mdl-card mdl-shadow--4dp">
+  <div class="mdl-card__supporting-text">
+<h5>Добавить комментарий</h5>
+    <div class="mdl-textfield mdl-js-textfield">
+    <textarea style="width: 700px" class="mdl-textfield__input" rows="750" type="text" id="comment_text" ></textarea>
+    <label class="mdl-textfield__label" for="comment_text">Комментарий</label>
+  </div>
+  </div>
+    <div class="mdl-card__actions mdl-card--border">
+    <button type="submit" id="ask_btn" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">
+            Отправить
+        </button>
+  </div>
+</div>
+</form>

@@ -1,0 +1,12 @@
+<div style="margin-left:20px" class="pagination">
+  {% if paginator.number == 1 and paginator.paginator.num_pages == 1 %}{% else %}
+  <span class="step-links">
+          {% if paginator.has_previous %}
+              <button onClick="location.href='?page={{ paginator.previous_page_number }}'" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Предыдущая</button>
+          {% endif %}
+          <span class="current">Страница {{ paginator.number }} из {{ paginator.paginator.num_pages }}
+          </span> {% if paginator.has_next %}
+  <button style="margin-right: 15px" onClick="location.href='?page={{ paginator.next_page_number }}'" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Следующая</button> {% endif %}
+  </span>
+  {% endif %}
+</div>

@@ -1,0 +1,12 @@
+<ul class="demo-list-item mdl-list">
+  {% for tag in tags %}
+  <li class="mdl-list__item">
+    <span class="mdl-list__item-primary-content">
+      <span class="mdl-chip mdl-chip--contact">
+    <span class="mdl-chip__contact mdl-color--teal mdl-color-text--white">{{ tag.name|slice:"1"|capfirst }}</span>
+    <a style="text-decoration: none;color: inherit;" href="/posts/tag/{{tag.name}}"><span class="mdl-chip__text">{{ tag.name }}</span></a>
+    </span>
+    </span>
+  </li>
+  {% endfor %}
+</ul>

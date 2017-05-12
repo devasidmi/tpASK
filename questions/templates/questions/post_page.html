@@ -1,0 +1,58 @@
+<html>
+
+<head>
+  <title>VASIDMI SITE</title>
+  {% include 'questions/style-links.html' %}
+</head>
+
+<body>
+  {% if user.is_authenticated %} {% include 'questions/header_auth.html' %} {% else %} {% include 'questions/header_not_auth.html' %} {% endif %}
+  <main class="mdl-layout__content">
+    <div class="page-content">
+      <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--8-col">
+          <div>
+            <p>
+              <div class="demo-card-square mdl-card mdl-shadow--2dp">
+                <div class="mdl-card__title mdl-card--expand">
+                  <h2 class="mdl-card__title-text">{{ post.title }}</h2>
+                </div>
+                <div class="mdl-card__supporting-text">
+                  {{ post.text }}
+                </div>
+                <div class="mdl-card__actions mdl-card--border">
+                  <a style="float: left;margin-top: 5px" class="mdl-list__item-secondary-action"><i class="material-icons">star</i></a>
+                  <p style="float: left;font-size: large;margin-top: 7px;margin-left: 10px">{{ post.rating }}</p>
+                  {% if user.is_authenticated %}
+                  <button style="margin-left: 15"><img src="/like.png" style="vertical-align: middle"></button>
+                  <button><img src="/dislike.png" style="vertical-align: middle"></button> {% endif %}
+                  <i style="float: right;margin-top: 50;margin-right: 10;">Posted by {{ post.user }}</i>
+                </div>
+              </div>
+            </p>
+          </div>
+          <div>
+            <h2 style="margin-left:20px;margin-top:100px">Комментарии</h2> {% include 'questions/comment.html' %}
+          </div>
+    {% if user.is_authenticated %}
+    {% include 'questions/comment_form.html' %}{% endif %}
+        </div>
+        <div class="mdl-cell mdl-cell--4-col">
+          <div>
+            <p>
+              <p>
+                Теги: {% include 'questions/site_tags.html' %}
+          </div>
+          <div>
+            <div class="mdl-card__actions mdl-card--border">
+              <p>
+                <p>
+                  Лучшие пользователи: {% include 'questions/best_members.html' %}
+            </div>
+          </div>
+        </div>
+  </main>
+</body>
+{#<script src="/static/js/post_comment.js"></script>#}
+<script src="/js/post_comment.js"></script>
+</html>
