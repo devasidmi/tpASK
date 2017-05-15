@@ -1,12 +1,13 @@
 from django.contrib.auth import login as authuser
 from django.contrib.auth import logout, authenticate
-from django.http import HttpResponse
+from django.http import HttpResponse,HttpResponseRedirect
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.utils.timezone import datetime as time
 
+from .forms import LoginForm,SettingsForm
 
-from questions.models import Question, Tag, Answer
+from questions.models import Question, Tag, Answer,Like,Profile
 from questions.paginator import PaginatorClass
 
 
@@ -33,24 +34,21 @@ def questions_list(request):
     # assert False, questions
     return render(request, 'questions/questions_list.html', {'questions': questions,'tags':tags,'paginator':PaginatorClass.paginate(questions,page)})
 
+def testform(request):
+
+    form = LoginForm(request.POST or None)
+    return render(request, 'questions/forms/testform.html', {'form':form})
+
 def post_question(request):
 
     return HttpResponse(Question.objects.postQuestion(request))
 
 def sign_out(request):
     if request.user.is_authenticated:
-        del request.session['qfilter']
+        if 'qfilter' in request.session:
+            del request.session['qfilter']
         logout(request)
     return redirect('/')
-
-def sign_in(request):
-    if request.POST:
-        usr = request.POST['login']
-        pwd = request.POST['password']
-        user = authenticate(request,username=usr,password=pwd)
-        if user:
-            authuser(request,user)
-    return HttpResponse(200)
 
 def post_comment(request):
 
@@ -64,30 +62,72 @@ def post_comment(request):
         comment.save()
     return HttpResponse(200)
 
-def save_settings(request):
-    if request.POST:
-        user = request.user
-        user.email = request.POST['email']
-        user.username = request.POST['login']
-        user.profile.nickname = request.POST['nickname']
-        user.profile.save()
-        user.save()
-    return HttpResponse(200)
-
 def registration(request):
     tags = Tag.objects.getPopularTags()
     return render(request, 'questions/registration.html',{'tags':tags})
 
 def login(request):
+    form = LoginForm(request.POST or None)
     tags = Tag.objects.getPopularTags()
-    return render(request,'questions/login.html',{'tags':tags})
+
+    if request.POST:
+        if form.is_valid():
+            usr = form.cleaned_data['login']
+            pwd = form.cleaned_data['password']
+            user = authenticate(request, username=usr, password=pwd)
+            if user:
+                authuser(request, user)
+                return HttpResponseRedirect("/")
+            else:
+                errors = {'user':'Пользователь не найден.'}
+                return render(request, 'questions/login.html', {'tags': tags, 'form': form,'errors':errors})
+
+    return render(request,'questions/login.html',{'tags':tags,'form':form})
 
 def settings(request):
     if request.user.is_authenticated:
+        form = SettingsForm(request.POST or None)
         tags = Tag.objects.getPopularTags()
         user = request.user
-        return render(request, 'questions/settings.html', {'tags': tags, 'user': user})
-    return redirect('/login')
+
+        if not request.POST:
+            form.initial = {'login':user.username, 'email':user.email,'nickname':user.profile.nickname}
+
+        if request.POST:
+            if form.is_valid():
+                print("YAY!")
+                form.save_settings(request.user,form.cleaned_data)
+                info = {'save':'Настройки успешно сохранены.'}
+                return render(request, 'questions/settings.html', {'tags': tags, 'user': user, 'form': form,'info':info})
+            else:
+                errors = {'login': '', 'email': '', 'nickname': ''}
+
+                if 'login' in form.errors:
+                    errors['login'] = form.errors['login'][0]
+                if 'email' in form.errors:
+                    errors['email'] = form.errors['email'][0]
+                if 'nickname' in form.errors:
+                    errors['nickname'] = form.errors['nickname'][0]
+                return render(request, 'questions/settings.html', {'tags': tags, 'user': user, 'form': form,'errors':errors})
+
+    return render(request, 'questions/settings.html', {'tags': tags, 'user': user,'form':form})
+
+def likedislike(request):
+
+    if request.POST:
+        like = Like(author=request.user,
+                    question=Question.objects.get(pk=request.POST['post_id']),
+                    like_type=request.POST['action'])
+        like.save()
+        q = Question.objects.get(pk=request.POST['post_id'])
+        q.rating +=int(request.POST['action'])
+        author = q.user.profile
+        author.rating +=int(request.POST['action'])
+        author.save()
+        print(q.rating)
+        q.save()
+
+    return HttpResponse(q.rating)
 
 def logged(request):
     return render(request,'questions/logged_in.html',{})

@@ -1,0 +1,21 @@
+<form method="post">{% csrf_token %}
+<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    {{ form.login }}
+    <label class="mdl-textfield__label" for="login_field">Логин...</label>
+    <span style="color: #a41515; font-size: small;">{{ errors.login }}</span>
+</div>
+    <p></p>
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    {{ form.password }}
+    <label class="mdl-textfield__label" for="password_field">Пароль...</label>
+    <span style="color: #a41515; font-size: small;">{{ errors.password }}</span>
+    </div>
+    <p></p>
+    <div class="mdl-card__actions">
+                  <input type="submit" id="loginbtn" value="Войти" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" data-upgraded=",MaterialButton,MaterialRipple">
+    <a class="mdl-button mdl-js-button mdl-button--accent" href="/signup/" data-upgraded=",MaterialButton">Создать аккаунт</a>
+
+    </div>
+<p></p>
+    <span style="color: #a41515; font-size: small;">{{ errors.user }}</span>
+</form>

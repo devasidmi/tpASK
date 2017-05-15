@@ -10,14 +10,14 @@ urlpatterns = [
     url(r'^signup/$', views.registration, name='signup'),
     url(r'^q/new/$', views.questions_list, name='new_q'),
     url(r'^q/trends/$', views.questions_list, name='hot_q'),
-    url(r'^sign_in/$', views.sign_in, name='sign_in'),
     url(r'^comment_POST/$', views.post_comment, name='comment_POST'),
-    url(r'^save_settings/$', views.save_settings, name='save_settings'),
     url(r'^question/post/$', views.post_question, name='postq'),
     url(r'^login/$', views.login,name='login'),
+    url(r'^post/likedislike/$', views.likedislike,name='likedislike'),
     url(r'^settings/$', views.settings,name='settings'),
     url(r'^logged/$', views.logged,name='logged'),
     url(r'^ask/$', views.ask, name='ask'),
+    url(r'^testform/$', views.testform, name='testform'),
     url(r'^methods/',views.simpleapp, name='methods'),
     url(r'^$', views.questions_list, name='main')
 ]

@@ -125,7 +125,7 @@ class Answer(models.Model):
 class Profile(User):
     class Meta:
         db_table = "profiles"
-    avatar = models.ImageField()
+    avatar = models.ImageField(blank=True,null=True)
     nickname = models.CharField(max_length = 20, default='')
     rating = models.IntegerField(default = 0)
 
