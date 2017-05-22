@@ -34,8 +34,7 @@
           <div>
             <h2 style="margin-left:20px;margin-top:100px">Комментарии</h2> {% include 'questions/comment.html' %}
           </div>
-    {% if user.is_authenticated %}
-    {% include 'questions/comment_form.html' %}{% endif %}
+          {% if user.is_authenticated %} {% include 'questions/comment_form.html' %}{% endif %}
         </div>
         <div class="mdl-cell mdl-cell--4-col">
           <div>
@@ -53,6 +52,8 @@
         </div>
   </main>
 </body>
-{#<script src="/static/js/post_comment.js"></script>#}
+{#
+<script src="/static/js/post_comment.js"></script>#}
 <script src="/js/post_comment.js"></script>
+
 </html>

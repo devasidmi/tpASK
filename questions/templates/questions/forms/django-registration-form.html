@@ -1,14 +1,8 @@
 {% include 'questions/style-links.html' %}
 
-{#<form method="post"> {% csrf_token %}#}
-{#    {{ form }}#}
-{#    <button type="submit">send</button>#}
-{#</form>#}
-
-
 <div style="margin-left: 20px; margin-top: 20px; width: 500px" class="mdl-card mdl-shadow--6dp">
   <div class="mdl-card__supporting-text">
-      <form method="post">{% csrf_token %}
+      <form method="post" enctype="multipart/form-data">{% csrf_token %}
     <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
         {{ form.login }}
     <label class="mdl-textfield__label" for="login_input">Логин...</label>
@@ -47,5 +41,3 @@
 </form>
   </div>
 </div>
-
-

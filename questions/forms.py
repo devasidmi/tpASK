@@ -1,4 +1,6 @@
 from django import forms
+from .models import User,Profile
+from django.contrib.auth.hashers import make_password
 
 class SettingsForm(forms.Form):
 
@@ -54,13 +56,14 @@ class AskForm(forms.Form):
                                                           'type': 'text',
                                                           'id': 'tags_input'}))
 class RegistrationForm(forms.Form):
+    error_css_class = 'error'
 
     login = forms.CharField(label='Логин', max_length=120, required=True,
                             widget=forms.TextInput(attrs={'class': 'mdl-textfield__input',
                                                           'type': 'text',
                                                           'id': 'login_input'}))
 
-    email = forms.CharField(label='Email', max_length=120, required=True,
+    email = forms.EmailField(label='Email', max_length=120, required=True,
                             widget=forms.TextInput(attrs={'class': 'mdl-textfield__input',
                                                           'type': 'text',
                                                           'id': 'email_input'}))
@@ -80,6 +83,20 @@ class RegistrationForm(forms.Form):
                                                           'type': 'password',
                                                           'id': 'repeat_password_input'}))
 
-    avatar = forms.FileField(label='Файл', max_length=120, required=True,
-                            widget=forms.TextInput(attrs={'class': 'mdl-textfield__input',
-                                                          'id': 'file_field'}))
+    avatar = forms.ImageField(label='Файл', max_length=120, required=False)
+
+    def clean(self):
+        if User.objects.filter(username = self.cleaned_data['login']).count() != 0:
+            raise forms.ValidationError("User with this login already exists")
+        if self.cleaned_data['password'] != self.cleaned_data['repeatpassword']:
+            raise forms.ValidationError("Passwords don't match!")
+
+    def register(self):
+        profile = Profile(
+            username=self.cleaned_data['login'],
+            nickname=self.cleaned_data['nickname'],
+            email=self.cleaned_data['email'],
+            password=make_password(self.cleaned_data['password']),
+            avatar=self.cleaned_data['avatar']
+        )
+        profile.save()

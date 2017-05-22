@@ -1,14 +1,13 @@
 from django.contrib.auth import login as authuser
 from django.contrib.auth import logout, authenticate
-from django.http import HttpResponse,HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.utils.timezone import datetime as time
 
-from .forms import LoginForm,SettingsForm
-
-from questions.models import Question, Tag, Answer,Like,Profile
+from questions.models import Question, Tag, Answer, Like
 from questions.paginator import PaginatorClass
+from .forms import LoginForm, SettingsForm, RegistrationForm
 
 
 def questions_list(request):
@@ -36,7 +35,17 @@ def questions_list(request):
 
 def testform(request):
 
-    form = LoginForm(request.POST or None)
+    form = RegistrationForm(request.POST or None)
+    if request.POST:
+        if form.is_valid():
+            return HttpResponse("OK 200")
+        else:
+            notfield=""
+            email = ""
+            if '__all__' in form.errors: notfield = form.errors['__all__'][0]
+            if 'email' in form.errors: email = form.errors['email'][0]
+            error_set = {"notfield":notfield,"email":email}
+            return render(request, 'questions/forms/testform.html', {'form': form,'errors': error_set})
     return render(request, 'questions/forms/testform.html', {'form':form})
 
 def post_question(request):
@@ -63,8 +72,26 @@ def post_comment(request):
     return HttpResponse(200)
 
 def registration(request):
+
+    form = RegistrationForm(request.POST or None, request.FILES or None)
     tags = Tag.objects.getPopularTags()
-    return render(request, 'questions/registration.html',{'tags':tags})
+    if request.POST:
+        if form.is_valid():
+            form.register()
+            user = authenticate(request,username=form.cleaned_data['login'], password=form.cleaned_data['password'])
+            if user:
+                authuser(request, user)
+                return HttpResponseRedirect("/")
+        else:
+            notfield = ""
+            email = ""
+            if '__all__' in form.errors: notfield = form.errors['__all__'][0]
+            if 'email' in form.errors: email = form.errors['email'][0]
+            error_set = {"notfield": notfield, "email": email}
+            return render(request, 'questions/registration.html', {'form': form, 'errors': error_set,'tags':tags})
+    return render(request, 'questions/registration.html', {'form': form,'tags':tags})
+
+    # return render(request, 'questions/registration.html',{'tags':tags})
 
 def login(request):
     form = LoginForm(request.POST or None)
@@ -74,7 +101,7 @@ def login(request):
         if form.is_valid():
             usr = form.cleaned_data['login']
             pwd = form.cleaned_data['password']
-            user = authenticate(request, username=usr, password=pwd)
+            user = authenticate(username=usr, password=pwd)
             if user:
                 authuser(request, user)
                 return HttpResponseRedirect("/")

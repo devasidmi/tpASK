@@ -6,15 +6,14 @@
 </head>
 
 <body>
-{% csrf_token %}
-  {% if user.is_authenticated %} {% include 'questions/header_auth.html' %} {% else %} {% include 'questions/header_not_auth.html' %} {% endif %}
+  {% csrf_token %} {% if user.is_authenticated %} {% include 'questions/header_auth.html' %} {% else %} {% include 'questions/header_not_auth.html' %} {% endif %}
   <main class="mdl-layout__content">
     <div class="page-content">
       <div class="mdl-grid">
         <div class="mdl-cell mdl-cell--8-col">
-        <div style="margin-left: 20px">
+          <div style="margin-left: 20px">
             <!-- Deletable Contact Chip -->
-<button id="new_q_btn" type="button" class="mdl-chip">
+            <button id="new_q_btn" type="button" class="mdl-chip">
     <img class="mdl-chip--contact" src="/new_posts.png"></img>
     <span class="mdl-chip__text"></span>
 </button>
@@ -22,7 +21,7 @@
     <img class="mdl-chip--contact" src="/hot_posts.png"></img>
     <span class="mdl-chip__text"></span>
 </button>
-        </div>
+          </div>
           <div>
             <p>
               {% block post %} {% endblock post %}
@@ -45,8 +44,10 @@
         </div>
   </main>
 </body>
-{#<script src='/static/js/questions_filter.js'></script>#}
+
+<script src='/static/js/questions_filter.js'></script>
 <script src='/js/questions_filter.js'></script>
 <script src="/js/like_dislike.js"></script>
-{#<script src="/static/js/like_dislike.js"></script>#}
+<script src="/static/js/like_dislike.js"></script>
+
 </html>
