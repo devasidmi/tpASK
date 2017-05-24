@@ -18,6 +18,7 @@ class SettingsForm(forms.Form):
                                                           'id':'nickname_field'}))
     def save_settings(self,user,data):
 
+
         user.email = data['email']
         user.username = data['login']
         user.profile.nickname = data['nickname']
